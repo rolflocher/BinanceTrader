@@ -8,11 +8,6 @@ class Optimizer:
 		self.strategy = strategy
 		
 	def execute(self, klines):
-#
-#		if len(klines) < length:
-#			print("Not enough klines supplied to strategy")
-#			return
-		
 		bestEnd = 0
 		bestParams = []
 		perms = self.strategy.getPerms()
@@ -49,5 +44,5 @@ class Optimizer:
 strategy = MACross().setParamRanges([range(5, 40), range(3, 20)])
 optimizer = Optimizer(strategy)
 
-klines = KlineLoader().load("BTCUSDT", "1m", 1000)
+klines = KlineLoader().load("BTCUSDT", "1m", 1000, True)
 optimizer.execute(klines)
