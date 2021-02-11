@@ -5,7 +5,7 @@ import requests
 class KlineLoader:
 
 	def load(self, symbol, interval, limit, isFutures):
-		json = self.request(symbol, interval, limit)
+		json = self.request(symbol, interval, limit, isFutures)
 		return KlineTransformer().transform(json)
 		
 	def request(self, symbol, interval, limit, isFutures):

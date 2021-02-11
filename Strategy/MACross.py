@@ -5,9 +5,6 @@ import pandas as pd
 
 class MACross(AStrategy):
 
-	def __init__(self):
-		self.params = [0, 0]
-
 	def evaluate(self, klines) -> Optional[bool]:
 		series = self.parseSeries(klines)
 		slowMA = self.getMA(series, self.params[0])

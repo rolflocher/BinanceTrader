@@ -4,11 +4,6 @@ from typing import Optional
 
 class AStrategy(ABC):
 
-	def __init__(self):
-		self.params = []
-		self.paramRanges = []
-		pass
-
 	def evaluate(self, klines) -> Optional[bool]:
 		pass
 		
