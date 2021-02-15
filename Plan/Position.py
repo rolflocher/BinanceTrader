@@ -1,14 +1,18 @@
 
 class Position:
 	def __init__(self, json):
-#		self.symbol = json["symbol"]
-#		self.time = json["updateTime"]
-		self.quantity = json["executedQty"]
-		self.price = json["price"]
-		self.side = json["side"]
-		self.positionSide = json["positionSide"]
-		self.type = json["type"]
-		self.priceRate = json["priceRate"]
-		self.trailingMark = None
-		if "trailingMark" in json:
-			self.trailingMark = json["trailingMark"]
+		self.symbol = json["s"]
+		self.quantity = json["pa"]
+		self.price = json["ep"]
+		self.positionSide = json["ps"]
+		self.accRealized = json["cr"]
+			
+	def __init__(self, quantity, price, side, positionSide, type, priceRate, trailingMark = None):
+		self.quantity = quantity
+		self.price = price
+		self.side = side
+		self.positionSide = positionSide
+		self.type = type
+		self.priceRate = priceRate
+		self.trailingMark = trailingMark
+			

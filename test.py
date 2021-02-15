@@ -1,0 +1,5 @@
+from .WebsocketService import WebsocketService
+
+api_key = "V6lHOnJWwmCDmNuhQAJvUOSCJpBkpt7Kd2ZGVRTWVMjYjssyRBzYjRBmr3ZbE4y2"
+api_secret = "o8y08esS2SRQnPi4nzzqDZ8QfvbB7GzHccbrcMZMassuxnKbawKv5IVMPG8pkD6b"
+
