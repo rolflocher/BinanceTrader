@@ -7,16 +7,13 @@ class AStrategy_v2(ABC):
 	def evaluate(self, klines) -> Optional[bool]:
 		pass
 		
-	def getRefreshInterval -> float:
+	def getRefreshInterval(self) -> float:
 		pass
 		
 	def getMinTime(self) -> Optional[int]:
 		pass
 		
 	def getDataSources(self) -> dict:
-		pass
-		
-	def getTradeSymbol(self) -> string:
 		pass
 		
 	def validateParams(self, params) -> bool:
@@ -54,6 +51,6 @@ class AStrategy_v2(ABC):
 
 class StrategyDataSource:
 	TRADES = 'trades'
-	AGTRADES = 'aggTrades'
+	AGGTRADES = 'aggTrade'
 	DEPTH = 'depth'
 
