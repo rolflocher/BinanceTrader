@@ -6,8 +6,6 @@ from Plan.LongTrailingStopPlan_v2 import LongTrailingStopPlan_v2
 
 from ComboLoader import ComboLoader
 
-#from Strategy.AStrategy_v2 import StrategyDataSource
-
 from Plan.Position import Position
 from Plan.Order import Order
 
@@ -51,12 +49,12 @@ class Tester:
 					curTime = int(info[0]['E'])
 					finalTime = int(info[-1]['E'])
 					break
-		curTime = int(curTime // (interval * 1000 * 60) * (interval * 1000 * 60)) + (interval * 1000 * 6)
+		curTime = int(curTime // (length * 1000 * 60) * (length * 1000 * 60)) + (length * 1000 * 6)
 		
 		while curTime < finalTime:
 			#buffer all data sources
 			curTime += interval * 1000
-			minTime = curTime - interval * 1000
+			minTime = curTime - length * 1000
 			for symbol, types in data.items():
 				for type, info in types.items():
 					while True:
@@ -87,6 +85,8 @@ class Tester:
 				for type, info in types.items():
 					print(data[symbol][type][maxIndexes[symbol][type]]['T'] - data[symbol][type][minIndexes[symbol][type]]['T'])
 					slice[symbol][type] = data[symbol][type][minIndexes[symbol][type]:maxIndexes[symbol][type]]
+			
+			
 			
 			
 strategy = MACross_v2().setParams([16, 10, 10, "btcusdt", 60])
