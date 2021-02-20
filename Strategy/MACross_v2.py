@@ -15,7 +15,9 @@ class MACross_v2(AStrategy_v2):
 
 	def evaluate(self, data, time) -> Optional[bool]:
 		trades = data[self.params[3]][StrategyDataSource.AGGTRADES]
+#		print("length trades", len(trades))
 		series = self.parseSeries(trades, time)
+#		print("series", series)
 		slowMA = self.getMA(series, self.params[0])
 		fastMA = self.getMA(series, self.params[1])
 #		print("\rSlow:", slowMA[-1], "Fast:", fastMA[-1], "Diff:", fastMA[-1] - slowMA[-1], end="")
@@ -59,7 +61,6 @@ class MACross_v2(AStrategy_v2):
 				else:
 					trades.insert(0, trade)
 					break
-#		print(series)
 		return series
 			
 	def getMA(self, series: list, length: int) -> list:
