@@ -22,10 +22,9 @@ class Optimizer:
 			self.strategy.setParams(perm)
 			planPerms = self.plan.getPerms()
 			for planPerm in planPerms:
-				self.plan.setParams(perm)
+				self.plan.setParams(planPerm)
 				base = 100
 				positions = []
-				inAt = 0
 				length = self.strategy.getMinLength()
 				for x in range(length, len(klines)):
 					windowedKlines = klines[x - length : x]
@@ -58,8 +57,6 @@ class Optimizer:
 					for order in orders:
 						if order.type == "MARKET":
 							position = Position({
-	#							"symbol": ,
-	#							"updateTime": ,
 								order.quantity,
 								order.price,
 								order.side,
@@ -71,8 +68,6 @@ class Optimizer:
 							base -= position.quantity * position.price
 						elif order.type == "TRAILING_STOP_MARKET":
 							position = Position({
-	#							"symbol": ,
-	#							"updateTime": ,
 								order.quantity,
 								order.price,
 								order.side,

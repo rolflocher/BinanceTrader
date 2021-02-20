@@ -9,8 +9,7 @@ import pandas as pd
 # 1: Length of fast MA (sec)
 # 2: Refresh interval (sec)
 # 3: MA symbol
-# 4: Trade symbol
-# 5: MA Interval (sec)
+# 4: MA Interval (sec)
 
 class MACross_v2(AStrategy_v2):
 
@@ -19,7 +18,7 @@ class MACross_v2(AStrategy_v2):
 		series = self.parseSeries(trades, time)
 		slowMA = self.getMA(series, self.params[0])
 		fastMA = self.getMA(series, self.params[1])
-		print("\rSlow:", slowMA[-1], "Fast:", fastMA[-1], "Diff:", fastMA[-1] - slowMA[-1], end="")
+#		print("\rSlow:", slowMA[-1], "Fast:", fastMA[-1], "Diff:", fastMA[-1] - slowMA[-1], end="")
 		if fastMA[-2] < slowMA[-2] and fastMA[-1] > slowMA[-1]:
 			return True
 		elif fastMA[-2] > slowMA[-2] and fastMA[-1] < slowMA[-1]:
@@ -31,7 +30,7 @@ class MACross_v2(AStrategy_v2):
 		return self.params[2]
 		
 	def getMinTime(self) -> int:
-		return self.params[0] + 1
+		return (self.params[0] + 1) * self.params[4]
 		
 	def getDataSources(self) -> dict:
 		return {self.params[3]: [StrategyDataSource.AGGTRADES]}
@@ -41,7 +40,8 @@ class MACross_v2(AStrategy_v2):
 			
 	def parseSeries(self, trades, time) -> list:
 		series = []
-		for x in range(0, self.getMinTime()):
+		for x in range(0, self.params[0] + 1):
+			delta = (x+1) * self.params[4]
 			if len(trades) == 0:
 				if len(series) == 0:
 					series.append(0)
@@ -54,11 +54,12 @@ class MACross_v2(AStrategy_v2):
 				if len(trades) == 0:
 					series[-1] = float(trade['p'])
 					break
-				if float(trade['T'])/1000 < time - self.getMinTime() + x + 1:
+				if float(trade['T'])/1000 < time - self.getMinTime() + delta:
 					series[-1] = float(trade['p'])
 				else:
 					trades.insert(0, trade)
 					break
+#		print(series)
 		return series
 			
 	def getMA(self, series: list, length: int) -> list:

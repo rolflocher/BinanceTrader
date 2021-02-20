@@ -7,6 +7,9 @@ from .OrderRequest import OrderRequest
 
 class LongTrailingStopPlan_v2(APlan_v2):
 
+	def getTradeSymbols(self) -> list:
+		return [self.params[1]]
+
 	def plan(self, lead, positions, orders, base) -> list:
 		if len(positions) == 0:
 			if lead == True:

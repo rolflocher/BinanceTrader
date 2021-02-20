@@ -49,7 +49,7 @@ def process_message(msg):
     rowQueue.append(aggTrade)
 
 async def watchAggregateTrades(symbol):
-    uri = baseEndpoint + "/ws/" + "btcusdt@trade"
+    uri = baseEndpoint + "/ws/" + "btcusdt@aggTrade"
     async with websockets.connect(uri) as websocket:
         lastPong = time.time()
         while True:

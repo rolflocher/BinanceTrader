@@ -9,6 +9,9 @@ class APlan_v2(ABC):
 	
 	def validateParams(self, params) -> bool:
 		pass
+		
+	def getTradeSymbols(self) -> list:
+		pass
 
 	def setParams(self, params: list):
 		self.params = params

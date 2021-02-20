@@ -22,7 +22,7 @@ class KlineTrader:
 		self.strategy = strategy
 		self.plan = plan
 		
-		self.positions = {}
+		self.positions = []
 		self.orders = {}
 		self.dataBuffer = {}
 		self.base = None
@@ -59,10 +59,10 @@ class KlineTrader:
 		elif msg['e'] == 'ACCOUNT_UPDATE':
 			self.base = float(msg['a']['B'][0]['wb'])
 			if msg['a']['P']:
-				self.positions = {}
+				self.positions = []
 				for positionDto in msg['a']['P']:
 					position = Position(positionDto)
-					self.positions = position
+					self.positions.append(position)
 		
 	def getListenKey(self):
 		url = "https://fapi.binance.com/fapi/v1/listenKey"
@@ -120,8 +120,7 @@ class KlineTrader:
 				# place order
 				print()
 				print(order)
-				print()
 
-strategy = MACross_v2().setParams([16, 10, 1, "btcusdt"])
+strategy = MACross_v2().setParams([16, 10, 10, "btcusdt", 60])
 plan = LongTrailingStopPlan_v2().setParams([0.3, "btcusdt"])
 trader = KlineTrader(strategy, plan)
