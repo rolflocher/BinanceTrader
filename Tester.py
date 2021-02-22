@@ -86,6 +86,7 @@ class Tester:
 				slice[symbol] = {}
 				for type, info in types.items():
 					slice[symbol][type] = data[symbol][type][minIndexes[symbol][type]:maxIndexes[symbol][type]]
+					# todo build last price dict from APlan.getTradeSymbols
 					if type == StrategyDataSource.AGGTRADES:
 						lastPrice = data[symbol][type][maxIndexes[symbol][type]]['p']
 			
