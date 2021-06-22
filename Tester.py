@@ -20,14 +20,14 @@ class Tester:
 		self.orders = {}
 		self.base = 100
 		
-	def test(self):
+	def test(self, limit):
 		fakeOrderId = 0
 		
 		length = self.strategy.getMinTime() # sec
 		interval = self.strategy.getRefreshInterval() # sec
 		reqs = self.strategy.getDataSources()
 
-		data = ComboLoader().load('socketrnn.db', reqs)
+		data = ComboLoader().load('socketrnn.db', reqs, limit)
 		for (symbol, types) in data.items():
 			for type in types:
 				print(symbol, type, len(data[symbol][type]))
@@ -147,7 +147,7 @@ class Tester:
 		if len(positionRemoveIndexes) > 0:
 			self.positions = [i for j, i in enumerate(self.positions) if j not in positionRemoveIndexes]
 			
-strategy = MACross_v2().setParams([16, 10, 10, "btcusdt", 60])
-plan = LongTrailingStopPlan_v2().setParams([0.003, "btcusdt"])
-tester = Tester(strategy, plan)
-tester.test()
+#strategy = MACross_v2().setParams([16, 10, 10, "btcusdt", 60])
+#plan = LongTrailingStopPlan_v2().setParams([0.003, "btcusdt"])
+#tester = Tester(strategy, plan)
+#tester.test()

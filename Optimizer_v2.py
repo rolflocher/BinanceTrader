@@ -7,6 +7,7 @@ from Plan.LongTrailingStopPlan_v2 import LongTrailingStopPlan_v2
 from Plan.Position import Position
 from Plan.Order import Order
 from Trade.TradeLoader import TradeLoader
+from Tester import Tester
 
 import copy
 
@@ -15,33 +16,6 @@ class Optimizer_v2:
 	def __init__(self, strategy: AStrategy_v2, plan: APlan_v2):
 		self.strategy = strategy
 		self.plan = plan
-		
-	def checkForSell(self, msg, orders, positions) -> float:
-		base = 0
-		orderRemoveIds = []
-		positionRemoveIndexes = []
-		for id, order in orders.items():
-			if order.type == "TRAILING_STOP_MARKET":
-				if order.positionSide == "LONG":
-					if float(msg["p"]) < order.stopPrice:
-						orderRemoveIds.append(id)
-						base += order.stopPrice * order.quantity
-						positionIndex = 0
-						for position in self.positions:
-							if position.positionSide == "LONG":
-								position.quantity -= order.quantity
-								if position.quantity < 0.0001:
-									positionRemoveIndexes.append(positionIndex)
-									print("Selling position at", order.stopPrice, "base now", base)
-									break
-							positionIndex += 1
-					elif float(msg["p"]) > order.stopPrice / (1 - order.priceRate):
-						order.stopPrice = float(msg["p"]) * (1 - order.priceRate)
-		for id in orderRemoveIds:
-			del orders[id]
-		if len(positionRemoveIndexes) > 0:
-			positions = [i for j, i in enumerate(positions) if j not in positionRemoveIndexes]
-		return base
 		
 	def execute(self):
 		bestEnd = 0
@@ -66,7 +40,7 @@ class Optimizer_v2:
 				
 #				model = {}
 #				modelSlice = {}
-#				requirements = self.strategy.getDataRequirements()
+				requirements = self.strategy.getDataRequirements()
 #				for symbol, req in requirements.items():
 #					for type in req:
 #						model[symbol][req] = TradeLoader().load('aggTrades.db')

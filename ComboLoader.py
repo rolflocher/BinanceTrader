@@ -1,40 +1,35 @@
 
 from Trade.TradeLoader import TradeLoader
-from Depth.DepthLoader import DepthLoader
-from Depth.BookGenerator import BookGenerator
-from Strategy.AStrategy_v2 import StrategyDataSource
+from Depth.BookLoader import BookLoader
 
 class ComboLoader:
 	def __init__(self):
 		self.tradeLoader = None
-		self.depthLoader = None
-		self.bookGenerator = None
-		
+		self.bookLoader = None
+
 	def getTradeLoader(self):
 		if self.tradeLoader == None:
 			self.tradeLoader =  TradeLoader()
 		return self.tradeLoader
-	
-	def getDepthLoader(self):
-		if self.depthLoader == None:
-			self.depthLoader =  DepthLoader()
-		return self.depthLoader
-		
-	def getBookGenerator(self):
-		if self.bookGenerator == None:
-			self.bookGenerator =  BookGenerator()
-		return self.bookGenerator
 
-	def load(self, databaseName, reqs):
+	def getBookLoader(self):
+		if self.bookLoader == None:
+			self.bookLoader =  BookLoader()
+		return self.bookLoader
+
+	def load(self, databaseName, reqs, limit = None):
 		model = {}
+		after = None
 		for symbol, types in reqs.items():
 			model[symbol] = {}
 			for type in types:
-				if type == StrategyDataSource.AGGTRADES:
-					model[symbol][type] = self.getTradeLoader().load(databaseName)
-				elif type == StrategyDataSource.DEPTH:
-					diffs, seed = self.getDepthLoader().load(databaseName)
-					model[symbol][type] = self.getBookGenerator().generate(diffs, seed)
+				if type == 'aggTrade':
+					model[symbol][type] = self.getTradeLoader().load(databaseName, limit, after)
+					if after == None:
+						after = model[symbol][type][0]['T']
+				elif type == 'depth':
+					model[symbol][type] = self.getBookLoader().load(databaseName, limit, after)
+					if after == None:
+						after = model[symbol][type][0]['time']
 		return model
 
-				
